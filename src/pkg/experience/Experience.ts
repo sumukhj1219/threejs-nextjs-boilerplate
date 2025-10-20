@@ -32,8 +32,8 @@ export default class Experience {
         this.scene = new THREE.Scene()
         this.camera = new Camera()
         this.renderer = new Renderer()
-        this.world = new World()
         this.resources = new Resources(sources)
+        this.world = new World()
 
         this.sizes.on("resize", () => {
             this.resize()
