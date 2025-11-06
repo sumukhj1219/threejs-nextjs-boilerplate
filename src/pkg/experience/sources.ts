@@ -10,5 +10,12 @@ export default  [
             "/textures/cube/normalGl.jpg",
             "/textures/cube/roughness.jpg",
         ]
+    },
+    {
+        name:"treeTexture",
+        type:"texture",
+        path:[
+            "/textures/tree/leaves.png"
+        ]
     }
 ]

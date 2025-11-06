@@ -1,6 +1,7 @@
 import { Scene, DirectionalLight, Texture, Mesh, MeshStandardMaterial, MeshPhysicalMaterial } from "three";
 import Experience from "../Experience";
 import Resources from "../utils/Resources";
+import * as THREE from "three"
 
 interface EnvironmentMap {
   texture: Texture;
@@ -10,13 +11,19 @@ interface EnvironmentMap {
 export default class Environment {
   private experience: Experience;
   public scene: Scene;
-  private sunLight!: DirectionalLight;
+  public sunLight!: DirectionalLight;
   private resources: Resources;
   private environmentMap!: EnvironmentMap;
+
+  
 
   constructor() {
     this.experience = new Experience();
     this.scene = this.experience.scene;
+    // sky
+    this.scene.background = new THREE.Color("skyblue")
+
+
     this.resources = this.experience.resources;
 
     this.setSunLight();

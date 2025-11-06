@@ -2,9 +2,9 @@ import EventEmitter from "./EventEmitter"
 
 export default class Time extends EventEmitter {
     private start: number
-    private current: number
-    private elapsed: number
-    private delta: number
+    public current: number
+    public elapsed: number
+    public delta: number
 
     constructor() {
         super()
@@ -18,7 +18,7 @@ export default class Time extends EventEmitter {
         requestAnimationFrame(this.tick)
     }
 
-    private tick(): void {
+    public tick() {
         const currentTime = Date.now()
         this.delta = currentTime - this.current
         this.current = currentTime

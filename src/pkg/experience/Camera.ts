@@ -45,5 +45,12 @@ export default class Camera{
 
     public update(){
         this.controls.update()
+        this.checkCameraYAxes()
+    }
+
+    private checkCameraYAxes(){
+        if(this.instance.position.y <=0 ){
+            this.instance.position.y = 0
+        }
     }
 }
