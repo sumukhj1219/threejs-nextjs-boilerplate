@@ -1,7 +1,17 @@
-precision mediump float;
+precision highp float;
 
+varying float vFar;
 varying vec2 vUv;
 
 void main() {
-    gl_FragColor = vec4(vUv.y, 0.4, 0.0, 1);
+    // Near grass: rich green-brown tone
+    vec3 nearColor = vec3(vUv.y, 0.45, 0.0);
+    
+    // Far grass: lighter, slightly desaturated version of near color
+    vec3 farColor = mix(vec3(0.7, 0.8, 0.6), nearColor, 0.2);
+    // → adds a light misty green tint
+
+    vec3 color = mix(nearColor, farColor, vFar);
+
+    gl_FragColor = vec4(color, 1.0 - vFar * 0.4);
 }

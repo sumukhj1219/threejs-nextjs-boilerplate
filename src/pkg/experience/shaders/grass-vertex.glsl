@@ -11,8 +11,10 @@ attribute float aOffset;
 uniform float uTime;
 uniform vec3 uWindFrequency;
 uniform float uWindAmplitude;
+uniform vec3 uCameraPosition;
 
 varying vec2 vUv;
+varying float vFar;
 
 float rand(vec2 co){
     return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
@@ -51,6 +53,8 @@ void main() {
 
 
     vec4 worldPos = instanceMatrix * vec4(animatedPosition, 1.0);
+    float dist = distance(worldPos.xyz, uCameraPosition);
+     vFar = smoothstep(40.0, 100.0, dist); 
 
     float patch = noise(worldPos.xz * 0.08);
 

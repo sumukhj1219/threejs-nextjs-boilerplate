@@ -31,6 +31,7 @@ export default class Grass {
             0.5, 1
         ]);
         geometry.setAttribute("uv", new BufferAttribute(uvs, 2));
+        const uFar = false;
 
         this.material = new RawShaderMaterial({
             vertexShader: grassVertexShader,
@@ -41,6 +42,7 @@ export default class Grass {
                 uTime: { value: 0 },
                 uWindFrequency: { value: new Vector3(2.0, 0.5, 2.0) },
                 uWindAmplitude: { value: 1.5 },
+                uCameraPosition: { value: new Vector3() }
             },
         });
 
@@ -66,5 +68,9 @@ export default class Grass {
     update() {
         const time = this.experience.time.elapsed * 0.001;
         this.material.uniforms.uTime.value = time;
+
+        this.material.uniforms.uCameraPosition.value.copy(
+            this.experience.camera.instance.position
+        );
     }
 }

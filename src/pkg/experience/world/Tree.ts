@@ -25,12 +25,6 @@ export default class Tree {
     private createTree() {
         this.mesh = new Group();
 
-        const trunkGeometry = new CylinderGeometry(0.1, 0.2, 3, 8);
-        const trunkMaterial = new MeshToonMaterial({ color: new Color("brown") });
-        const trunk = new Mesh(trunkGeometry, trunkMaterial);
-        trunk.position.y = 1;
-        this.mesh.add(trunk);
-
         for (let i = 0; i < this.TREE_PLANES; i++) {
             const geometry = new PlaneGeometry(1, 1);
             const material = new RawShaderMaterial({

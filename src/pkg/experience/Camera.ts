@@ -45,12 +45,21 @@ export default class Camera{
 
     public update(){
         this.controls.update()
-        this.checkCameraYAxes()
+        this.checkBoundaries()
     }
 
-    private checkCameraYAxes(){
+    private checkBoundaries(){
         if(this.instance.position.y <=1 ){
             this.instance.position.y = 1
         }
+
+        if(this.instance.position.x >=70 || this.instance.position.x <= -70){
+            this.instance.position.x = 70
+        }
+
+        if(this.instance.position.z >=70 || this.instance.position.z <= -70){
+            this.instance.position.z = 70
+        }
     }
+
 }
