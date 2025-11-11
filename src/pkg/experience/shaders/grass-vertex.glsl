@@ -42,14 +42,14 @@ void main() {
     float randomPhase = rand(vec2(aOffset, aOffset * 2.3));
     float wind =
           sin((position.x * uWindFrequency.x) + (t + randomPhase)) * 0.5;
-          sin((position.z * uWindFrequency.y) + (t * 0.7 + randomPhase * 2.0)) * 0.3 +
-          sin((position.y * uWindFrequency.z) + (t * 1.3 + randomPhase * 4.0)) * 0.2;
+          sin((position.z * uWindFrequency.y) + (t * 0.7 + randomPhase * 2.0)) * 0.3;
+        //   sin((position.y * uWindFrequency.z) + (t * 1.3 + randomPhase * 4.0)) * 0.2;
 
     float swayFactor = smoothstep(0.0, 0.55, position.y);
 
     vec3 animatedPosition = position;
     animatedPosition.x += wind * (0.2 + rand(vec2(aOffset * 2.0, 0.0)) * 0.2) * swayFactor;
-    animatedPosition.z += wind * (0.35 + rand(vec2(aOffset * 2.0, 0.0)) * 0.5) * swayFactor;
+    // animatedPosition.z += wind * (0.35 + rand(vec2(aOffset * 2.0, 0.0)) * 0.5) * swayFactor;
 
 
     vec4 worldPos = instanceMatrix * vec4(animatedPosition, 1.0);

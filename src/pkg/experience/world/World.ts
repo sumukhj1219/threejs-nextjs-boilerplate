@@ -6,6 +6,7 @@ import Resources from "../utils/Resources";
 import Terrain from "./Terrain";
 import Tree from "./Tree";
 import Grass from "./Grass";
+import Bush from "./Bush";
 
 export default class World {
     private experience!: Experience
@@ -16,6 +17,7 @@ export default class World {
     public terrain!: Terrain
     public tree!: Tree
     public grass!: Grass
+    public bush!: Bush
 
     constructor() {
         this.experience = new Experience()
@@ -37,8 +39,9 @@ export default class World {
             this.environment = new Environment()
 
             this.terrain = new Terrain()
-            this.tree = new Tree()
             this.grass = new Grass()
+            this.bush = new Bush()
+            this.tree = new Tree()
         })
     }
 
@@ -48,6 +51,9 @@ export default class World {
 
         if(this.grass)
         this.grass.update()
+
+        if(this.bush)
+        this.bush.update()
     }
 
 }

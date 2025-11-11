@@ -21,7 +21,7 @@ export default class Grass {
         const vertices = new Float32Array([
             0.0, 0.0, 0.0,    
             0.2, 0.0, 0.0,   
-            0.4, 0.5, 0.0,  
+            0.5, 0.5, 0.0,  
         ]);
 
         const geometry = new BufferGeometry();
@@ -41,14 +41,14 @@ export default class Grass {
             transparent: true,
             uniforms: {
                 uTime: { value: 0 },
-                uWindFrequency: { value: new Vector3(2.0, 2.0, 2.0) },
+                uWindFrequency: { value: new Vector3(2.0, 0.5, 2.0) },
                 uWindAmplitude: { value: 1.5 },
             }
         });
 
         this.materials.push(material);
 
-        const count = 300000;
+        const count = 1000000;
         const offsets = new Float32Array(count);
         for (let i = 0; i < count; i++) {
             offsets[i] = Math.random() * 200.0; 
@@ -62,9 +62,9 @@ export default class Grass {
 
         for (let i = 0; i < count; i++) {
             dummy.position.set(
-                (Math.random() - 0.5) * 100,         
+                (Math.random() - 0.5) * 180,         
                 -0.3,                             
-                (Math.random() - 0.5)* 100          
+                (Math.random() - 0.5)* 180          
             );
 
             

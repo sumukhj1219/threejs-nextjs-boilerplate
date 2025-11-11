@@ -5,5 +5,5 @@ varying float vHeight;
 
 void main() {
 
-    gl_FragColor = vec4(0.82, 0.37, 0.15, 1.0);
+    gl_FragColor = vec4(0.25, 0.9, 0.15, 1.0);
 }

@@ -15,14 +15,13 @@ export default class Environment {
   private resources: Resources;
   private environmentMap!: EnvironmentMap;
 
-  
+
 
   constructor() {
     this.experience = new Experience();
     this.scene = this.experience.scene;
     // sky
     this.scene.background = new THREE.Color("skyblue")
-
 
     this.resources = this.experience.resources;
 
@@ -31,15 +30,27 @@ export default class Environment {
   }
 
   private setSunLight() {
-    this.sunLight = new DirectionalLight("#ffffff", 3);
-    this.sunLight.position.set(5, 5, 5);
+    this.sunLight = new THREE.DirectionalLight("#ffffff", 3);
+    this.sunLight.position.set(10, 15, 10);
     this.sunLight.castShadow = true;
-    this.sunLight.shadow.camera.near = 1;
-    this.sunLight.shadow.camera.far = 20;
-    this.sunLight.shadow.mapSize.set(1024, 1024);
+
+    const cam = this.sunLight.shadow.camera as THREE.OrthographicCamera;
+    cam.near = 0.5;
+    cam.far = 100;
+    cam.left = -50;
+    cam.right = 50;
+    cam.top = 50;
+    cam.bottom = -50;
+
+    this.sunLight.shadow.mapSize.set(2048, 2048); 
+    this.sunLight.shadow.bias = -0.002;
 
     this.scene.add(this.sunLight);
+
+    // const helper = new THREE.CameraHelper(cam);
+    // this.scene.add(helper);
   }
+
 
   private setEnvironmentMap() {
     const envTexture = this.resources.items.environmentMapTexture as Texture;

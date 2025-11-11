@@ -15,7 +15,21 @@ export default  [
         name:"treeTexture",
         type:"texture",
         path:[
+            "/textures/tree/leaves2.png"
+        ]
+    },
+    {
+        name:"treeGlb",
+        type:"gltf",
+        path:[
+            "/models/tree.glb"
+        ]
+    },
+    {
+        name:"bushTexture",
+        type:"texture",
+        path:[
             "/textures/tree/leaves.png"
         ]
-    }
+    },
 ]
