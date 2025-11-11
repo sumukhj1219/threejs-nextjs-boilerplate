@@ -107,6 +107,7 @@ export default class Tree {
             dummy.position.set(x, y, z);
             dummy.rotation.set(0, Math.random() * Math.PI * 2, 0); 
             dummy.scale.setScalar(1);
+            dummy.scale.y = Math.random() * 1.25 + 1;
             dummy.updateMatrix();
 
             treeMesh.setMatrixAt(i, dummy.matrix);

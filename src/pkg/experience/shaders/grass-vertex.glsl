@@ -43,13 +43,11 @@ void main() {
     float wind =
           sin((position.x * uWindFrequency.x) + (t + randomPhase)) * 0.5;
           sin((position.z * uWindFrequency.y) + (t * 0.7 + randomPhase * 2.0)) * 0.3;
-        //   sin((position.y * uWindFrequency.z) + (t * 1.3 + randomPhase * 4.0)) * 0.2;
 
     float swayFactor = smoothstep(0.0, 0.55, position.y);
 
     vec3 animatedPosition = position;
     animatedPosition.x += wind * (0.2 + rand(vec2(aOffset * 2.0, 0.0)) * 0.2) * swayFactor;
-    // animatedPosition.z += wind * (0.35 + rand(vec2(aOffset * 2.0, 0.0)) * 0.5) * swayFactor;
 
 
     vec4 worldPos = instanceMatrix * vec4(animatedPosition, 1.0);
@@ -65,14 +63,6 @@ void main() {
         return;
     }
 
-    //
-    // Height cutoff for dunes (optional)
-    // uncomment if terrain Y height exists
-    //
-    // if (worldPos.y > 1.2) { 
-    //     gl_Position = vec4(0.0);
-    //     return;
-    // }
 
     worldPos = instanceMatrix * vec4(animatedPosition, 1.0);
     gl_Position = projectionMatrix * modelViewMatrix * worldPos;

@@ -7,6 +7,8 @@ import Terrain from "./Terrain";
 import Tree from "./Tree";
 import Grass from "./Grass";
 import Bush from "./Bush";
+import Sky from "./Sky";
+import Leaves from "./Leaves";
 
 export default class World {
     private experience!: Experience
@@ -18,6 +20,8 @@ export default class World {
     public tree!: Tree
     public grass!: Grass
     public bush!: Bush
+    public sky!: Sky
+    public leaves!: Leaves
 
     constructor() {
         this.experience = new Experience()
@@ -40,8 +44,10 @@ export default class World {
 
             this.terrain = new Terrain()
             this.grass = new Grass()
-            this.bush = new Bush()
+            // this.bush = new Bush()
             this.tree = new Tree()
+            this.leaves = new Leaves()
+            this.sky = new Sky()
         })
     }
 
@@ -54,6 +60,7 @@ export default class World {
 
         if(this.bush)
         this.bush.update()
+
     }
 
 }

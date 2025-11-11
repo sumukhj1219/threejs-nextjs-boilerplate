@@ -29,7 +29,7 @@ export default  [
         name:"bushTexture",
         type:"texture",
         path:[
-            "/textures/tree/leaves.png"
+            "/textures/tree/leaves3.png"
         ]
     },
 ]

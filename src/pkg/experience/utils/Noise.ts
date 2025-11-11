@@ -16,7 +16,7 @@ export function generateHeightTexture(size = 256) {
                 1.0 * perlin.noise(1 * nx, 1 * ny, z) +
                 0.5 * perlin.noise(2 * nx, 2 * ny, z) +
                 0.25 * perlin.noise(4 * nx, 4 * ny, z)
-            const val = e * 0.5 + 0.5 // Normalize to 0–1
+            const val = e * 0.5 + 0.5 
             data[y * size + x] = val * 255
 
             if (val > maxVal) maxVal = val
