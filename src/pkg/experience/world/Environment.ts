@@ -30,7 +30,7 @@ export default class Environment {
   }
 
   private setSunLight() {
-    this.sunLight = new THREE.DirectionalLight("#ffffff", 3);
+    this.sunLight = new THREE.DirectionalLight(new THREE.Color("white"), 3);
     this.sunLight.position.set(10, 15, 10);
     this.sunLight.castShadow = true;
 
@@ -47,8 +47,6 @@ export default class Environment {
 
     this.scene.add(this.sunLight);
 
-    // const helper = new THREE.CameraHelper(cam);
-    // this.scene.add(helper);
   }
 
 

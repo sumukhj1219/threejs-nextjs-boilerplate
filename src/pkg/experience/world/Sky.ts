@@ -17,7 +17,7 @@ export default class Sky {
         const material = new THREE.ShaderMaterial({
             uniforms: {
                 topColor: { value: new THREE.Color(0x0077ff) },
-                bottomColor: { value: new THREE.Color(0xffffff) },
+                bottomColor: { value: new THREE.Color("white") },
                 offset: { value: 33 },
                 exponent: { value: 0.6 }
             },

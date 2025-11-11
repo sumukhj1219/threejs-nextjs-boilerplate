@@ -9,6 +9,7 @@ import Grass from "./Grass";
 import Bush from "./Bush";
 import Sky from "./Sky";
 import Leaves from "./Leaves";
+import Fog from "./Fog";
 
 export default class World {
     private experience!: Experience
@@ -22,6 +23,7 @@ export default class World {
     public bush!: Bush
     public sky!: Sky
     public leaves!: Leaves
+    public fog!: Fog
 
     constructor() {
         this.experience = new Experience()
@@ -48,6 +50,7 @@ export default class World {
             this.tree = new Tree()
             this.leaves = new Leaves()
             this.sky = new Sky()
+            this.fog = new Fog()
         })
     }
 

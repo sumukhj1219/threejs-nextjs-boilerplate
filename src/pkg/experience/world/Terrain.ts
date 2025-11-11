@@ -18,7 +18,7 @@ export default class Terrain {
     }
 
     private createTerrain() {
-        const geometry = new THREE.PlaneGeometry(180, 180, 256, 256)
+        const geometry = new THREE.PlaneGeometry(160, 160, 256, 256)
         // const material = new THREE.RawShaderMaterial({
         //     side: THREE.DoubleSide,
             
