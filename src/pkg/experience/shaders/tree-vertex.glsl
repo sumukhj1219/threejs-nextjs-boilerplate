@@ -20,8 +20,6 @@ void main() {
     elevation += sin(pos.z * uWindFrequency.z + uTime * 0.8) * uWindAmplitude * 0.7;
 
     pos.x += elevation * 0.2;
-    pos.y += elevation * 0.4;
-    pos.z += elevation * 0.2;
 
     vElevation = elevation;
     vUv = uv;

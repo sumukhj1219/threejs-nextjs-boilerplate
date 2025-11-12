@@ -13,6 +13,6 @@ export default class Fog {
     }
 
     private createFog() {
-        this.scene.fog = new THREE.Fog( 0xcccccc, 10, 100 );
+        this.scene.fog = new THREE.Fog( "#d9a066", 10, 100 );
     }
 }

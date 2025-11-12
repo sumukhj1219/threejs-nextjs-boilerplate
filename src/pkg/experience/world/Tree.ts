@@ -1,123 +1,100 @@
-import { Scene, Group, Mesh, RawShaderMaterial, PlaneGeometry, DoubleSide, Vector3, CylinderGeometry, MeshBasicMaterial, Color, MeshStandardMaterial, MeshToonMaterial } from "three";
+import { Scene, Object3D, MeshToonMaterial, Color, InstancedMesh } from "three";
 import Experience from "../Experience";
-import treeVertexShader from "../shaders/tree-vertex.glsl"
-import treeFragmentShader from "../shaders/tree-fragment.glsl"
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
-import * as THREE from "three"
+import * as THREE from "three";
 
 export default class Tree {
     private experience!: Experience;
     private scene!: Scene;
-    private TREE_PLANES = 150;
-    private TREES = 366;
-
-    public mesh!: Group;
-    private materials: RawShaderMaterial[] = [];
+    private TREES = 400;
 
     constructor() {
         this.experience = new Experience();
         this.scene = this.experience.scene;
 
-        // this.createTree();
-        this.createTrunk()
+        this.createTree();
     }
 
     private createTree() {
-        this.mesh = new Group();
+        const loader = new GLTFLoader();
+        loader.load("/models/pine-tree.glb", (glb) => {
+            const root = glb.scene;
 
-        for (let i = 0; i < this.TREE_PLANES; i++) {
-            const geometry = new PlaneGeometry(1, 1);
-            const material = new RawShaderMaterial({
-                vertexShader: treeVertexShader,
-                fragmentShader: treeFragmentShader,
-                side: DoubleSide,
-                transparent: true,
-                opacity: 0.25,
-                uniforms: {
-                    uWindFrequency: { value: new Vector3(2.0, 0.0, 2.0) },
-                    uWindAmplitude: { value: 0.5 },
-                    uTime: { value: 0 },
-                    uTexture: { value: this.experience.resources.items.treeTexture }
+            console.log("Root children:", root.children[0].children[0].children[0].children);
+
+            const parts = root.children[0].children[0].children[0].children;
+
+            let geomTop: THREE.BufferGeometry | null = null;
+            let geomMiddle: THREE.BufferGeometry | null = null;
+            let geomTrunk: THREE.BufferGeometry | null = null;
+
+            for (const part of parts) {
+                if (part.name === "Top" && part.children[0]?.isMesh) {
+                    // @ts-ignore
+                    geomTop = part.children[0].geometry.clone();
+                } else if (part.name === "Middle" && part.children[0]?.isMesh) {
+                    // @ts-ignore
+                    geomMiddle = part.children[0].geometry.clone();
+                } else if (part.name === "Trunk" && part.children[0]?.isMesh) {
+                    // @ts-ignore
+                    geomTrunk = part.children[0].geometry.clone();
                 }
-            });
-            this.materials.push(material);
+            }
 
-            const plane = new Mesh(geometry, material);
-            plane.position.set(
-                (Math.random() - 0.5) * 2,
-                Math.random() * 2 + 1.5,
-                (Math.random() - 0.5) * 2
-            );
-            plane.rotation.set(
-                Math.random() * Math.PI / 4,
-                Math.random() * Math.PI,
-                Math.random() * Math.PI / 4
-            );
+            if (!geomTop || !geomMiddle || !geomTrunk) {
+                console.warn("Could not find all parts (Top, Middle, Trunk). Check hierarchy.");
+                return;
+            }
 
-            this.mesh.add(plane);
-        }
+            const rotateUp = (geom: THREE.BufferGeometry) => {
+                geom.rotateX(-Math.PI / 2);
+            };
 
-        this.mesh.position.set(5, 0, 0);
-        this.scene.add(this.mesh);
-    }
+            rotateUp(geomTop);
+            rotateUp(geomMiddle);
+            rotateUp(geomTrunk);
 
-    private createTrunk() {
-    const loader = new GLTFLoader();
-    loader.load("/models/tree.glb", (glb) => {
-        const root = glb.scene;
-
-        let baseMesh: THREE.Mesh | null = null;
-        root.traverse((child: any) => {
-            if (child.isMesh && !baseMesh) baseMesh = child;
-        });
-        if (!baseMesh) return console.warn("No mesh found in tree.glb");
-
-        // @ts-ignore
-        const geom = baseMesh.geometry.clone();
-          geom.rotateX(-Math.PI / 2);
-
-        const box = new THREE.Box3().setFromObject(baseMesh);
-        const size = new THREE.Vector3();
-        box.getSize(size);
-
-        const scaledBox = new THREE.Box3().setFromObject(new THREE.Mesh(geom));
-        geom.translate(0, -scaledBox.min.y, 0);
-
-        const toonMat = new THREE.MeshToonMaterial({
-            color: new THREE.Color("#66260d"),
-            side: THREE.DoubleSide
-        });
-
-        const treeMesh = new THREE.InstancedMesh(geom, toonMat, this.TREES);
-        treeMesh.castShadow = true;
-        treeMesh.receiveShadow = false;
-
-        const dummy = new THREE.Object3D();
-        for (let i = 0; i < this.TREES; i++) {
-            const x = (Math.random() - 0.5) * 50;
-            const z = (Math.random() - 0.5) * 50;
-            const y = 0;
-
-            dummy.position.set(x, y, z);
-            dummy.rotation.set(0, Math.random() * Math.PI * 2, 0); 
-            dummy.scale.setScalar(1);
-            dummy.scale.y = Math.random() * 1.25 + 1;
-            dummy.updateMatrix();
-
-            treeMesh.setMatrixAt(i, dummy.matrix);
-        }
-
-        this.scene.add(treeMesh);
-    });
-}
+            const matTop = new MeshToonMaterial({ color: new Color("#A3B43D"), side: THREE.DoubleSide });
+            const matMiddle = new MeshToonMaterial({ color: new Color("#7C8F2E"), side: THREE.DoubleSide });
+            const matTrunk = new MeshToonMaterial({ color: new Color("#8B5A2B"), side: THREE.DoubleSide });
 
 
+            const meshTop = new InstancedMesh(geomTop, matTop, this.TREES);
+            const meshMiddle = new InstancedMesh(geomMiddle, matMiddle, this.TREES);
+            const meshTrunk = new InstancedMesh(geomTrunk, matTrunk, this.TREES);
 
+            meshTop.castShadow = meshMiddle.castShadow = meshTrunk.castShadow = true;
+            meshTop.receiveShadow = meshMiddle.receiveShadow = meshTrunk.receiveShadow = false;
 
-    public update() {
-        const time = this.experience.time.elapsed * 0.001;
-        this.materials.forEach((mat) => {
-            mat.uniforms.uTime.value = time;
+            const dummy = new Object3D();
+            const innerRadius = 20;
+            const outerRadius = 90;
+
+            for (let i = 0; i < this.TREES; i++) {
+                const angle = Math.random() * Math.PI * 2;
+                const radius = Math.sqrt(Math.random() * (outerRadius ** 2 - innerRadius ** 2) + innerRadius ** 2);
+                const x = Math.cos(angle) * radius;
+                const z = Math.sin(angle) * radius;
+                const y = 0;
+
+                dummy.position.set(x, y, z);
+                dummy.rotation.set(0, Math.random() * Math.PI * 2, 0);
+                dummy.scale.setScalar(4);
+                dummy.scale.y = Math.random() + 8;
+                dummy.updateMatrix();
+
+                meshTop.setMatrixAt(i, dummy.matrix);
+                meshTop.position.y = dummy.scale.y * 2.3
+                meshMiddle.setMatrixAt(i, dummy.matrix);
+                meshMiddle.position.y = dummy.scale.y
+                meshTrunk.setMatrixAt(i, dummy.matrix);
+            }
+
+            this.scene.add(meshTrunk);
+            this.scene.add(meshMiddle);
+            this.scene.add(meshTop);
         });
     }
+
+    public update() { }
 }

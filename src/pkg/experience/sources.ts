@@ -15,7 +15,7 @@ export default  [
         name:"treeTexture",
         type:"texture",
         path:[
-            "/textures/tree/leaves2.png"
+            "/textures/tree/leaves3.png"
         ]
     },
     {
