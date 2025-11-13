@@ -19,13 +19,6 @@ export default  [
         ]
     },
     {
-        name:"treeGlb",
-        type:"gltf",
-        path:[
-            "/models/tree.glb"
-        ]
-    },
-    {
         name:"bushTexture",
         type:"texture",
         path:[

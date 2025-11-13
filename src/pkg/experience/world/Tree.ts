@@ -32,14 +32,6 @@ export default class Tree {
                 }
             });
 
-            if (trunkMeshes.length === 0) {
-                console.warn("⚠️ No trunk mesh found (Cube).");
-                return;
-            }
-            if (leafMeshes.length === 0) {
-                console.warn("⚠️ No leaf mesh found (Cube.001). Will render trunk only.");
-            }
-
             const mergeMeshes = (meshes: THREE.Mesh[]) => {
                 const geoms: THREE.BufferGeometry[] = [];
                 for (const mesh of meshes) {
@@ -54,6 +46,7 @@ export default class Tree {
             const leafGeom =  mergeMeshes(leafMeshes)
 
             const centerY = (geom: THREE.BufferGeometry) => {
+                // @ts-ignore
                 const bbox = new Box3().setFromBufferAttribute(geom.getAttribute("position"));
                 const minY = bbox.min.y;
                 geom.translate(0, -minY, 0);
@@ -75,7 +68,6 @@ export default class Tree {
             trunkInst.castShadow = true
             trunkInst.receiveShadow = true
             leafInst.castShadow = true
-            // leafInst.receiveShadow = true
 
             const dummy = new Object3D();
             const innerRadius = 20;
