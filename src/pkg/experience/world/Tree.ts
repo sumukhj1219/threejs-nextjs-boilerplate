@@ -1,6 +1,6 @@
-import { Scene, Object3D, MeshToonMaterial, Color, InstancedMesh } from "three";
+import { Scene, Object3D, MeshToonMaterial, Color, InstancedMesh, Box3 } from "three";
 import Experience from "../Experience";
-import { GLTFLoader } from "three/examples/jsm/Addons.js";
+import { GLTFLoader, BufferGeometryUtils } from "three/examples/jsm/Addons.js";
 import * as THREE from "three";
 
 export default class Tree {
@@ -11,60 +11,71 @@ export default class Tree {
     constructor() {
         this.experience = new Experience();
         this.scene = this.experience.scene;
-
-        this.createTree();
+        this.loadTree();
     }
 
-    private createTree() {
+    private loadTree() {
         const loader = new GLTFLoader();
-        loader.load("/models/pine-tree.glb", (glb) => {
+        loader.load("/models/cubical-tree.glb", (glb) => {
             const root = glb.scene;
 
-            console.log("Root children:", root.children[0].children[0].children[0].children);
-
-            const parts = root.children[0].children[0].children[0].children;
-
-            let geomTop: THREE.BufferGeometry | null = null;
-            let geomMiddle: THREE.BufferGeometry | null = null;
-            let geomTrunk: THREE.BufferGeometry | null = null;
-
-            for (const part of parts) {
-                if (part.name === "Top" && part.children[0]?.isMesh) {
-                    // @ts-ignore
-                    geomTop = part.children[0].geometry.clone();
-                } else if (part.name === "Middle" && part.children[0]?.isMesh) {
-                    // @ts-ignore
-                    geomMiddle = part.children[0].geometry.clone();
-                } else if (part.name === "Trunk" && part.children[0]?.isMesh) {
-                    // @ts-ignore
-                    geomTrunk = part.children[0].geometry.clone();
+            const trunkMeshes: THREE.Mesh[] = [];
+            const leafMeshes: THREE.Mesh[] = [];
+            console.log(root)
+            root.traverse((child: any) => {
+                if (child.isMesh) {
+                    if (child.name.toLowerCase().includes("cube001")) {
+                        leafMeshes.push(child);
+                    } else if (child.name.toLowerCase().includes("cube")) {
+                        trunkMeshes.push(child);
+                    }
                 }
-            }
+            });
 
-            if (!geomTop || !geomMiddle || !geomTrunk) {
-                console.warn("Could not find all parts (Top, Middle, Trunk). Check hierarchy.");
+            if (trunkMeshes.length === 0) {
+                console.warn("⚠️ No trunk mesh found (Cube).");
                 return;
             }
+            if (leafMeshes.length === 0) {
+                console.warn("⚠️ No leaf mesh found (Cube.001). Will render trunk only.");
+            }
 
-            const rotateUp = (geom: THREE.BufferGeometry) => {
-                geom.rotateX(-Math.PI / 2);
+            const mergeMeshes = (meshes: THREE.Mesh[]) => {
+                const geoms: THREE.BufferGeometry[] = [];
+                for (const mesh of meshes) {
+                    const g = mesh.geometry.clone();
+                    g.applyMatrix4(mesh.matrixWorld);
+                    geoms.push(g);
+                }
+                return BufferGeometryUtils.mergeGeometries(geoms, true);
             };
 
-            rotateUp(geomTop);
-            rotateUp(geomMiddle);
-            rotateUp(geomTrunk);
+            const trunkGeom = mergeMeshes(trunkMeshes);
+            const leafGeom =  mergeMeshes(leafMeshes)
 
-            const matTop = new MeshToonMaterial({ color: new Color("#A3B43D"), side: THREE.DoubleSide });
-            const matMiddle = new MeshToonMaterial({ color: new Color("#7C8F2E"), side: THREE.DoubleSide });
-            const matTrunk = new MeshToonMaterial({ color: new Color("#8B5A2B"), side: THREE.DoubleSide });
+            const centerY = (geom: THREE.BufferGeometry) => {
+                const bbox = new Box3().setFromBufferAttribute(geom.getAttribute("position"));
+                const minY = bbox.min.y;
+                geom.translate(0, -minY, 0);
+            };
+            centerY(trunkGeom);
+            if (leafGeom) centerY(leafGeom);
 
+            const trunkMat = new MeshToonMaterial({
+                color: new Color("#704c25"), 
+                side: THREE.DoubleSide,
+            });
+            const leafMat = new MeshToonMaterial({
+                color: new Color("#d97a14"),
+                side: THREE.DoubleSide,
+            });
 
-            const meshTop = new InstancedMesh(geomTop, matTop, this.TREES);
-            const meshMiddle = new InstancedMesh(geomMiddle, matMiddle, this.TREES);
-            const meshTrunk = new InstancedMesh(geomTrunk, matTrunk, this.TREES);
-
-            meshTop.castShadow = meshMiddle.castShadow = meshTrunk.castShadow = true;
-            meshTop.receiveShadow = meshMiddle.receiveShadow = meshTrunk.receiveShadow = false;
+            const trunkInst = new InstancedMesh(trunkGeom, trunkMat, this.TREES);
+            const leafInst = new InstancedMesh(leafGeom, leafMat, this.TREES) ;
+            trunkInst.castShadow = true
+            trunkInst.receiveShadow = true
+            leafInst.castShadow = true
+            // leafInst.receiveShadow = true
 
             const dummy = new Object3D();
             const innerRadius = 20;
@@ -76,25 +87,25 @@ export default class Tree {
                 const x = Math.cos(angle) * radius;
                 const z = Math.sin(angle) * radius;
                 const y = 0;
+                const scale = 5;
+                const height = Math.random() * 4 + 9;
 
                 dummy.position.set(x, y, z);
                 dummy.rotation.set(0, Math.random() * Math.PI * 2, 0);
-                dummy.scale.setScalar(4);
-                dummy.scale.y = Math.random() + 8;
+                dummy.scale.set(scale, height, scale);
                 dummy.updateMatrix();
-
-                meshTop.setMatrixAt(i, dummy.matrix);
-                meshTop.position.y = dummy.scale.y * 2.3
-                meshMiddle.setMatrixAt(i, dummy.matrix);
-                meshMiddle.position.y = dummy.scale.y
-                meshTrunk.setMatrixAt(i, dummy.matrix);
+                // @ts-ignore
+                leafInst.position.y = Math.random() + 2
+                trunkInst.setMatrixAt(i, dummy.matrix);
+                if (leafInst) leafInst.setMatrixAt(i, dummy.matrix);
             }
 
-            this.scene.add(meshTrunk);
-            this.scene.add(meshMiddle);
-            this.scene.add(meshTop);
+            this.scene.add(trunkInst);
+            if (leafInst) this.scene.add(leafInst);
+
+            console.log("✅ Tree instancing complete:", { trunk: trunkMeshes.length, leaves: leafMeshes.length });
         });
     }
 
-    public update() { }
+    public update() {}
 }
