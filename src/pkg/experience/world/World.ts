@@ -12,6 +12,7 @@ import Leaves from "./Leaves";
 import Fog from "./Fog";
 import Rocks from "./Rocks";
 import Lab from "./Lab";
+import Player from "./Player";
 
 export default class World {
     private experience!: Experience
@@ -28,6 +29,7 @@ export default class World {
     public fog!: Fog
     public rocks!: Rocks
     public lab!: Lab
+    public player!: Player
 
     constructor() {
         this.experience = new Experience()
@@ -57,6 +59,7 @@ export default class World {
             this.fog = new Fog()
             this.lab = new Lab()
             this.rocks = new Rocks()
+            this.player = new Player()
         })
     }
 
@@ -69,6 +72,9 @@ export default class World {
 
         if(this.bush)
         this.bush.update()
+
+        if(this.player)
+        this.player.update()
 
     }
 
