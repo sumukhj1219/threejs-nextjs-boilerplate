@@ -1,0 +1,26 @@
+// export const cyclesKeyFrame = {
+//     day:{
+//         x:10,
+//         y:15,
+//         z:10,
+//         color:"white",
+//         topSkyColor:"0x0077ff",
+//         bottomSkyColor:"pink"
+//     },
+//     afternoon:{
+//         x:10,
+//         y:15,
+//         z:20,
+//         color:"white",
+//         topSkyColor:"0x0077ff",
+//         bottomSkyColor:"#e6f78f"
+//     },
+//     dusk:{
+//         x:10,
+//         y:15,
+//         z:20,
+//         color:"white",
+//         topSkyColor:"0x0077ff",
+//         bottomSkyColor:"#e6f78f"
+//     }
+// }

@@ -11,6 +11,7 @@ import Sky from "./Sky";
 import Leaves from "./Leaves";
 import Fog from "./Fog";
 import Rocks from "./Rocks";
+import Lab from "./Lab";
 
 export default class World {
     private experience!: Experience
@@ -26,6 +27,7 @@ export default class World {
     public leaves!: Leaves
     public fog!: Fog
     public rocks!: Rocks
+    public lab!: Lab
 
     constructor() {
         this.experience = new Experience()
@@ -53,6 +55,7 @@ export default class World {
             this.leaves = new Leaves()
             this.sky = new Sky()
             this.fog = new Fog()
+            this.lab = new Lab()
             this.rocks = new Rocks()
         })
     }
