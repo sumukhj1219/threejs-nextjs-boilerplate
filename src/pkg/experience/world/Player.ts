@@ -44,10 +44,14 @@ export default class Player {
     }
 
     private handleMovement() {
-        if (this.keys["w"]) this.player.position.z -= this.MOVEMENT_SPEED;
-        if (this.keys["s"]) this.player.position.z += this.MOVEMENT_SPEED;
-        if (this.keys["a"]) this.player.position.x -= this.MOVEMENT_SPEED;
-        if (this.keys["d"]) this.player.position.x += this.MOVEMENT_SPEED;
+        if (this.keys["a"]) this.player.position.z -= this.MOVEMENT_SPEED;
+        if (this.keys["d"]) this.player.position.z += this.MOVEMENT_SPEED;
+        if (this.keys["s"]) this.player.position.x -= this.MOVEMENT_SPEED;
+        if (this.keys["w"]) this.player.position.x += this.MOVEMENT_SPEED;
+    }
+
+    private handleCameraControls(){
+        
     }
 
     update() {
