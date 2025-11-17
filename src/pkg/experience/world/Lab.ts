@@ -23,7 +23,7 @@ export default class Lab {
             root.getObjectByName("board")?.traverse((node: any) => {
                 if (node.isMesh) {
                     node.castShadow = true;
-                    node.material = new THREE.MeshToonMaterial({ color: "brown" });
+                    node.material = new THREE.MeshToonMaterial({ color: "#f73e19" });
                 }
             });
 

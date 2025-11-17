@@ -80,14 +80,14 @@ export default class Tree {
                 const z = Math.sin(angle) * radius;
                 const y = 0;
                 const scale = 5;
-                const height = Math.random() * 4 + 9;
+                const height = Math.random() * 4 + 5;
 
                 dummy.position.set(x, y, z);
                 dummy.rotation.set(0, Math.random() * Math.PI * 2, 0);
                 dummy.scale.set(scale, height, scale);
                 dummy.updateMatrix();
                 // @ts-ignore
-                leafInst.position.y = Math.random() + 2
+                leafInst.position.y = Math.random() + 1.5
                 trunkInst.setMatrixAt(i, dummy.matrix);
                 if (leafInst) leafInst.setMatrixAt(i, dummy.matrix);
             }

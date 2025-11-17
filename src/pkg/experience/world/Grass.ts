@@ -53,7 +53,7 @@ export default class Grass {
         for (let i = 0; i < count; i++) {
             dummy.position.set(
                 (Math.random() - 0.5) * 200,
-                -0.3,
+                0,
                 (Math.random() - 0.5) * 200
             );
             dummy.rotation.y = Math.random() * Math.PI;

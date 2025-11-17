@@ -8,7 +8,7 @@ export default class Player {
     private camera: THREE.Camera;
 
     private MOVEMENT_SPEED = 0.1;
-    private cameraOffset = new THREE.Vector3(-8, 8, -8);
+    private cameraOffset = new THREE.Vector3(-15, 15, -15);
 
     private keys: Record<string, boolean> = {};
 

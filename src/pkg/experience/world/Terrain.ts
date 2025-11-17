@@ -1,8 +1,6 @@
 import { Scene } from "three"
 import Experience from "../Experience"
 import * as THREE from "three"
-import terrainVertexShader from "../shaders/terrain-vertex.glsl"
-import terrainFragmentShader from "../shaders/terrain-fragment.glsl"
 import { generateHeightTexture } from "../utils/Noise"
 
 export default class Terrain {
@@ -18,18 +16,21 @@ export default class Terrain {
     }
 
     private createTerrain() {
+        const heightMap = generateHeightTexture()
         const geometry = new THREE.PlaneGeometry(200, 200, 256, 256)
-        const heightTexture = generateHeightTexture()
-        const material = new THREE.MeshToonMaterial({
-            color: new THREE.Color("#e05b22"),
+        const material = new THREE.MeshStandardMaterial({
+            color: new THREE.Color("#d18b2a"),
             side: THREE.DoubleSide,
-            displacementMap:heightTexture,
-            displacementScale:100
+            displacementMap:heightMap,
+            metalness:0,
+            roughness:1,
+            displacementScale:2
         })
         this.mesh = new THREE.Mesh(geometry, material)
-        this.mesh.rotation.x = Math.PI / 2
+        this.mesh.rotation.x = -Math.PI / 2
         this.mesh.castShadow = false
         this.mesh.receiveShadow = true
+        this.mesh.position.y = -1
         this.scene.add(this.mesh)
     }
 
