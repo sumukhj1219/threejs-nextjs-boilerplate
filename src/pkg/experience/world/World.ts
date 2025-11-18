@@ -13,6 +13,7 @@ import Fog from "./Fog";
 import Rocks from "./Rocks";
 import Lab from "./Lab";
 import Player from "./Player";
+import Physics from "../Physics";
 
 export default class World {
     private experience!: Experience
@@ -30,11 +31,13 @@ export default class World {
     public rocks!: Rocks
     public lab!: Lab
     public player!: Player
+    public physics!: Physics
 
     constructor() {
         this.experience = new Experience()
         this.scene = this.experience.scene
         this.resources = this.experience.resources
+        this.physics = this.experience.physics
         this.resources.startLoading()
 
         const testMesh = new THREE.Mesh(
@@ -64,9 +67,6 @@ export default class World {
     }
 
     public update(){
-        if(this.tree)
-        this.tree.update()
-
         if(this.grass)
         this.grass.update()
 
@@ -75,6 +75,9 @@ export default class World {
 
         if(this.player)
         this.player.update()
+
+        if(this.physics)
+        this.physics.update()
 
     }
 

@@ -6,6 +6,7 @@ import * as THREE from "three"
 import World from "./world/World"
 import Resources from "./utils/Resources"
 import sources from "./sources"
+import Physics from "./Physics"
 
 export default class Experience {
     private static instance: Experience
@@ -18,6 +19,7 @@ export default class Experience {
     public renderer!: Renderer
     public world!: World
     public resources!: Resources
+    public physics!: Physics
 
     constructor(canvas?: HTMLCanvasElement | undefined) {
         if (Experience.instance) {
@@ -27,6 +29,7 @@ export default class Experience {
 
         this.canvas = canvas
 
+        this.physics = new Physics()
         this.sizes = new Sizes()
         this.time = new Time()
         this.scene = new THREE.Scene()
@@ -34,6 +37,7 @@ export default class Experience {
         this.renderer = new Renderer()
         this.resources = new Resources(sources)
         this.world = new World()
+
 
         this.sizes.on("resize", () => {
             this.resize()
@@ -50,6 +54,7 @@ export default class Experience {
     }
 
     update() {
+        this.physics.update()
         this.camera.update()
         this.world.update()
         this.renderer.update()

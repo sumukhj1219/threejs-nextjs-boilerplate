@@ -1,11 +1,11 @@
-import { Scene } from "three";
-import Experience from "../Experience";
+// import { Scene } from "three";
+// import Experience from "../Experience";
 
-export default class Cycle {
-    private experience: Experience;
-    public scene: Scene;
-    private 
+// export default class Cycle {
+//     private experience: Experience;
+//     public scene: Scene;
+//     private 
 
-    private currentCycle = 
+//     private currentCycle = 
     
-}
+// }

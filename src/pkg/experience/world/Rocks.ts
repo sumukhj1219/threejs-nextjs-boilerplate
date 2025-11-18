@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import Experience from "../Experience";
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
+import RAPIER from "@dimforge/rapier3d-compat";
 
 export default class Rocks {
   private experience!: Experience;
@@ -45,7 +46,23 @@ export default class Rocks {
         rock.rotation.y = Math.random() * Math.PI * 2;
 
         this.scene.add(rock);
+        this.createPhysicsBody(rock)
       }
     });
   }
+
+  private createPhysicsBody(rock: THREE.Mesh) {
+          const box = new THREE.Box3().setFromObject(rock);
+          const size = new THREE.Vector3();
+          box.getSize(size);
+          const center = new THREE.Vector3();
+          box.getCenter(center);
+  
+          const world = this.experience.physics.world;
+          const rigidBodyDesc = RAPIER.RigidBodyDesc.fixed()
+              .setTranslation(rock.position.x, rock.position.y, rock.position.z);
+          const body = world.createRigidBody(rigidBodyDesc);
+          const colliderDesc = RAPIER.ColliderDesc.cuboid(size.x / 2, size.y / 2, size.z / 2);
+          world.createCollider(colliderDesc, body);
+      }
 }

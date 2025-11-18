@@ -15,8 +15,6 @@ export default class Environment {
   private resources: Resources;
   private environmentMap!: EnvironmentMap;
 
-
-
   constructor() {
     this.experience = new Experience();
     this.scene = this.experience.scene;
