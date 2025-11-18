@@ -6,7 +6,7 @@ import leavesFragmentShader from "../shaders/leaves-fragment.glsl";
 export default class Leaves {
   private experience!: Experience;
   private scene!: THREE.Scene;
-  private LEAVES_COUNT = 100000;
+  private LEAVES_COUNT = 150000;
 
   constructor() {
     this.experience = new Experience();

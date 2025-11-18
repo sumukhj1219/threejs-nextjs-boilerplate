@@ -40,9 +40,8 @@ export default class Rocks {
           (Math.random() - 0.5) * 100   
         );
 
-        const scale = 0.5 + Math.random() * 0.5;
-        rock.scale.setScalar(scale);
-
+        const scale = 1.5 + Math.random() * 0.5;
+        rock.scale.setScalar(scale);  
         rock.rotation.y = Math.random() * Math.PI * 2;
 
         this.scene.add(rock);

@@ -31,7 +31,7 @@ export default class Lab {
 
             root.position.set(10, 0, 10)
             root.rotation.y = -Math.PI / 2
-            root.scale.set(2, 2, 2)
+            root.scale.set(3.5, 3.5, 3.5)
             this.createPhysicsBody(root)
         });
 
