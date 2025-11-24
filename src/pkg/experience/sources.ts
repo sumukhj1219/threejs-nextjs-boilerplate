@@ -1,8 +1,8 @@
-export default  [
+export default [
     {
-        name:"environmentMapTexture",
-        type:"cube",
-        path:[
+        name: "environmentMapTexture",
+        type: "cube",
+        path: [
             "/textures/cube/ambident.jpg",
             "/textures/cube/color.jpg",
             "/textures/cube/displacement.jpg",
@@ -12,17 +12,33 @@ export default  [
         ]
     },
     {
-        name:"treeTexture",
-        type:"texture",
-        path:[
+        name: "treeTexture",
+        type: "texture",
+        path: [
             "/textures/tree/leaves3.png"
         ]
     },
     {
-        name:"bushTexture",
-        type:"texture",
-        path:[
+        name: "bushTexture",
+        type: "texture",
+        path: [
             "/textures/tree/leaves3.png"
         ]
     },
+    {
+        name: "metalDisp",
+        type: "texture",
+        path: "/textures/metal/disp.png",
+    },
+    {
+        name: "metalDiff",
+        type: "texture",
+        path: "/textures/metal/diff.jpg",
+    },
+    {
+        name: "metalRough",
+        type: "texture",
+        path: "/textures/metal/rough.jpg",
+    },
+
 ]

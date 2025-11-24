@@ -21,7 +21,7 @@ export default class Terrain {
             color: new THREE.Color("#f25b1f"),
             side: THREE.DoubleSide,
             metalness: 0,
-            roughness: 1
+            roughness: 1,
         });
 
         this.mesh = new THREE.Mesh(geometry, material);

@@ -6,7 +6,6 @@ import RAPIER from "@dimforge/rapier3d-compat";
 export default class Lab {
     private experience!: Experience;
     private scene!: THREE.Scene;
-    private body!: RAPIER.RigidBody
 
     constructor() {
         this.experience = new Experience();
@@ -31,10 +30,9 @@ export default class Lab {
 
             root.position.set(10, 0, 10)
             root.rotation.y = -Math.PI / 2
-            root.scale.set(3.5, 3.5, 3.5)
+            root.scale.set(2, 2, 2)
             this.createPhysicsBody(root)
         });
-
     }
 
     private createPhysicsBody(root: THREE.Group) {
