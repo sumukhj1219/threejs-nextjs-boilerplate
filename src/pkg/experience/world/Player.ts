@@ -6,10 +6,10 @@ import { GLTFLoader } from "three/examples/jsm/Addons.js";
 export default class Player {
     private experience: Experience;
     private scene: THREE.Scene;
-    private player: THREE.Object3D | null = null;
+    public player: THREE.Object3D | null = null;
     private camera: THREE.Camera;
 
-    private MOVEMENT_SPEED = 3;
+    private MOVEMENT_SPEED = 5;
     private ROTATION_ANGLE = 0;
     private FLOATING_DISTANCE = 1.0
     private FLOAT_TIME = 0.0;
@@ -48,7 +48,6 @@ export default class Player {
             this.player = root;
             this.scene.add(this.player);
         });
-
     }
 
     private createPhysicsBody(radius: number) {
@@ -56,7 +55,6 @@ export default class Player {
         const rigidBodyDesc = RAPIER.RigidBodyDesc.dynamic()
             .setTranslation(0, radius, 0)
             .lockRotations();
-
         this.body = world.createRigidBody(rigidBodyDesc);
         this.body.setGravityScale(0, true)
         const collider = RAPIER.ColliderDesc.ball(radius);
@@ -67,15 +65,13 @@ export default class Player {
         window.addEventListener("keydown", (e) => {
             this.keys[e.key.toLowerCase()] = true;
         });
-
         window.addEventListener("keyup", (e) => {
             this.keys[e.key.toLowerCase()] = false;
         });
     }
 
-    private updatePosition() {
+    private movement() {
         let moveX = 0, moveZ = 0;
-
         if (this.keys["w"]) {
             moveX += 1.0;
             this.ROTATION_ANGLE = 0;
@@ -92,13 +88,11 @@ export default class Player {
             moveZ += 1.0;
             this.ROTATION_ANGLE = -Math.PI / 2;
         }
-
         const len = Math.hypot(moveX, moveZ);
         if (len > 0) {
             moveX /= len;
             moveZ /= len;
         }
-
         if (this.player && (moveX !== 0 || moveZ !== 0)) {
             this.player.rotation.z = THREE.MathUtils.lerp(
                 this.player.rotation.z,
@@ -106,14 +100,13 @@ export default class Player {
                 0.15
             );
         }
-
         const vel = new RAPIER.Vector3(moveX * this.MOVEMENT_SPEED, 0, moveZ * this.MOVEMENT_SPEED);
         this.body.setLinvel(vel, true);
     }
 
     update() {
         if (!this.player) return;
-        this.updatePosition()
+        this.movement()
 
         this.FLOAT_TIME += this.experience.time.delta * 0.002; 
         const floatOffset = Math.sin(this.FLOAT_TIME) * 0.05; 

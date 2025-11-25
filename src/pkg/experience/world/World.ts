@@ -57,12 +57,12 @@ export default class World {
             this.grass = new Grass()
             // this.bush = new Bush()
             this.tree = new Tree()
+            this.player = new Player()
             this.leaves = new Leaves()
             this.sky = new Sky()
             this.fog = new Fog()
             this.lab = new Lab()
             this.rocks = new Rocks()
-            this.player = new Player()
         })
     }
 
@@ -78,6 +78,9 @@ export default class World {
 
         if(this.physics)
         this.physics.update()
+
+        if(this.leaves)
+        this.leaves.update()
 
     }
 
