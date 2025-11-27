@@ -9,7 +9,7 @@ export default class Player {
     public player: THREE.Object3D | null = null;
     private camera: THREE.Camera;
 
-    private MOVEMENT_SPEED = 5;
+    private MOVEMENT_SPEED = 10;
     private ROTATION_ANGLE = 0;
     private FLOATING_DISTANCE = 1.0
     private FLOAT_TIME = 0.0;

@@ -25,7 +25,7 @@ export default class Leaves {
   }
 
   private fallenLeaves() {
-    const geometry = new THREE.PlaneGeometry(0.1, 0.1);
+    const geometry = new THREE.PlaneGeometry(0.125, 0.125);
 
     const material = new THREE.RawShaderMaterial({
       vertexShader: leavesVertexShader,
@@ -81,13 +81,13 @@ export default class Leaves {
       const leaf = this.leavesData[i]
 
       if (!leaf.flying) {
-        const dist = playerPos?.distanceTo(leaf.position)
+        const dist = playerPos?.distanceTo(leaf.position) ?? 2.0
         if (dist < 2.0) {
           leaf.flying = true;
           leaf.velocity.set(
-            (Math.random() - 0.5) * 2,
-            Math.random() * 2 + 1,
-            (Math.random() - 0.5) * 2
+            (Math.random() - 0.5) * 10,
+            Math.random() * 2 + 2,
+            (Math.random() - 0.5) * 10
           );
         }
       }

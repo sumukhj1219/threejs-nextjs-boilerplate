@@ -52,9 +52,9 @@ export default class Grass {
         const dummy = new Object3D();
         for (let i = 0; i < count; i++) {
             dummy.position.set(
-                (Math.random() - 0.5) * 200,
+                (Math.random() - 0.5) * 170,
                 0,
-                (Math.random() - 0.5) * 200
+                (Math.random() - 0.5) * 170
             );
             dummy.rotation.y = Math.random() * Math.PI;
             dummy.scale.setScalar(0.5 + Math.random() * 0.5);
