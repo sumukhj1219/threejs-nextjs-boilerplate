@@ -25,20 +25,35 @@ export default [
             "/textures/tree/leaves3.png"
         ]
     },
+
     {
         name: "metalDisp",
         type: "texture",
-        path: "/textures/metal/disp.png",
+        path: "/textures/metal/disp.jpg",
     },
     {
-        name: "metalDiff",
+        name: "metalColor",
         type: "texture",
-        path: "/textures/metal/diff.jpg",
+        path: "/textures/metal/color.jpg",
     },
     {
         name: "metalRough",
         type: "texture",
         path: "/textures/metal/rough.jpg",
     },
-
+    {
+        name: "metalMetalness",
+        type: "texture",
+        path: "/textures/metal/metalness.jpg",
+    },
+    {
+        name: "metalNordx",
+        type: "texture",
+        path: "/textures/metal/nordx.jpg",
+    },
+    {
+        name: "metalNorgl",
+        type: "texture",
+        path: "/textures/metal/norgl.jpg",
+    }
 ]

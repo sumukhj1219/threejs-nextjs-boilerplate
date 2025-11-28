@@ -29,16 +29,30 @@ export default class Player {
 
     private createCharacter() {
         const loader = new GLTFLoader()
-        loader.load("/models/robot-raw.glb", (glb) => {
+        loader.load("/models/droid.glb", (glb) => {
             const root = glb.scene;
             root.traverse((child) => {
                 if ((child as THREE.Mesh).isMesh) {
                     child.castShadow = true;
                     child.receiveShadow = true;
+                    const tex = this.experience.resources.items;
+                    // @ts-ignore
+
+                    const material = child.material;
+
+                    material.map = tex.metalColor;
+                    material.roughnessMap = tex.metalRough;
+                    material.metalnessMap = tex.metalMetalness;
+
+                    material.normalMap = tex.metalNorgl;
+                    material.normalMap.flipY = false;
+
+                    material.displacementMap = tex.metalDisp;
+                    material.displacementScale = 0.05;
                 }
             });
-            root.rotation.set(-Math.PI / 2, 0, -Math.PI);
             root.scale.set(1, 1, 1);
+            root.side = THREE.DoubleSide
             root.updateWorldMatrix(true, true);
             const box = new THREE.Box3().setFromObject(root);
             const size = new THREE.Vector3();
@@ -94,8 +108,8 @@ export default class Player {
             moveZ /= len;
         }
         if (this.player && (moveX !== 0 || moveZ !== 0)) {
-            this.player.rotation.z = THREE.MathUtils.lerp(
-                this.player.rotation.z,
+            this.player.rotation.y = THREE.MathUtils.lerp(
+                this.player.rotation.y,
                 this.ROTATION_ANGLE,
                 0.15
             );
@@ -108,8 +122,8 @@ export default class Player {
         if (!this.player) return;
         this.movement()
 
-        this.FLOAT_TIME += this.experience.time.delta * 0.002; 
-        const floatOffset = Math.sin(this.FLOAT_TIME) * 0.05; 
+        this.FLOAT_TIME += this.experience.time.delta * 0.002;
+        const floatOffset = Math.sin(this.FLOAT_TIME) * 0.05;
 
         const t = this.body.translation();
         this.player.position.set(t.x, t.y + floatOffset + this.FLOATING_DISTANCE, t.z);
