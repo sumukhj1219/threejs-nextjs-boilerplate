@@ -35,24 +35,22 @@ export default class Player {
                 if ((child as THREE.Mesh).isMesh) {
                     child.castShadow = true;
                     child.receiveShadow = true;
-                    const tex = this.experience.resources.items;
-                    // @ts-ignore
+                    // const tex = this.experience.resources.items;
+                    // // @ts-ignore
+                    // const material = child.material;
 
-                    const material = child.material;
+                    // material.map = tex.metalColor;
+                    // material.roughnessMap = tex.metalRough;
+                    // material.metalnessMap = tex.metalMetalness;
 
-                    material.map = tex.metalColor;
-                    material.roughnessMap = tex.metalRough;
-                    material.metalnessMap = tex.metalMetalness;
+                    // material.normalMap = tex.metalNorgl;
+                    // material.normalMap.flipY = false;
 
-                    material.normalMap = tex.metalNorgl;
-                    material.normalMap.flipY = false;
-
-                    material.displacementMap = tex.metalDisp;
-                    material.displacementScale = 0.05;
+                    // material.displacementMap = tex.metalDisp;
+                    // material.displacementScale = 0.05;
                 }
             });
             root.scale.set(1, 1, 1);
-            root.side = THREE.DoubleSide
             root.updateWorldMatrix(true, true);
             const box = new THREE.Box3().setFromObject(root);
             const size = new THREE.Vector3();

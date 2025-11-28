@@ -14,6 +14,7 @@ import Rocks from "./Rocks";
 import Lab from "./Lab";
 import Player from "./Player";
 import Physics from "../Physics";
+import Cycle from "./Cycle";
 
 export default class World {
     private experience!: Experience
@@ -32,6 +33,7 @@ export default class World {
     public lab!: Lab
     public player!: Player
     public physics!: Physics
+    public cycle!: Cycle
 
     constructor() {
         this.experience = new Experience()
@@ -51,6 +53,7 @@ export default class World {
         this.scene.add(testMesh)
 
         this.resources.on("ready", () => {
+            this.cycle = new Cycle()
             this.environment = new Environment()
 
             this.terrain = new Terrain()
@@ -81,6 +84,12 @@ export default class World {
 
         if(this.leaves)
         this.leaves.update()
+
+        if(this.cycle)
+        this.cycle.update()
+
+        if(this.environment)
+        this.environment.update()
 
     }
 
