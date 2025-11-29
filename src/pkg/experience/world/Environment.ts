@@ -3,6 +3,7 @@ import Experience from "../Experience";
 import Resources from "../utils/Resources";
 import * as THREE from "three"
 import Cycle from "./Cycle";
+import gsap from "gsap";
 
 interface EnvironmentMap {
   texture: Texture;
@@ -90,19 +91,29 @@ export default class Environment {
 
 
   update() {
-    const cycle = this.cycle.currentCycle;
+    const A = this.cycle.cycleA;
+    const B = this.cycle.cycleB;
+    const t = this.cycle.blend;
 
-    const t = 0.5;
+     this.sunLight.position.lerpVectors(
+        new THREE.Vector3(A.x, A.y, A.z),
+        new THREE.Vector3(B.x, B.y, B.z),
+        t
+    )
 
-    this.sunLight.position.lerp(
-      new THREE.Vector3(cycle.x, cycle.y, cycle.z),
-      t
+    this.sunLight.color.lerpColors(
+        new THREE.Color(A.color),
+        new THREE.Color(B.color),
+        t
     );
 
-    this.sunLight.color.lerp(new THREE.Color(cycle.color), t);
+    this.sunLight.intensity =
+        A.sunIntensity + (B.sunIntensity - A.sunIntensity) * t;
 
-    this.sunLight.intensity += (cycle.sunIntensity - this.sunLight.intensity) * t;
-
-    this.scene.background = new THREE.Color(cycle.topSkyColor);
+    this.scene.background = new THREE.Color().lerpColors(
+        new THREE.Color(A.topSkyColor),
+        new THREE.Color(B.topSkyColor),
+        t
+    );
   }
 }

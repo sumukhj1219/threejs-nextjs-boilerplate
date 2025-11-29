@@ -6,31 +6,40 @@ export default class Cycle {
     private experience: Experience;
     public scene: Scene;
     private cycleKeyFrame: CyclesKeyFrame
-    public currentCycle:CycleKeys
     private END_OF_CYCLETIME = 900000
-    private lastCycle: string | null = null;
+
+    public cycleA: CycleKeys;
+    public cycleB: CycleKeys;
+    public blend: number;
 
     constructor() {
         this.experience = new Experience();
         this.scene = this.experience.scene;
         this.cycleKeyFrame = cyclesKeyFrame
-        this.currentCycle = this.cycleKeyFrame["day"]
+
+        this.cycleA = cyclesKeyFrame.day;
+        this.cycleB = cyclesKeyFrame.afternoon;
+        this.blend = 0;
     }
 
 
     update() {
-        const elapsed = this.experience.time.elapsed % this.END_OF_CYCLETIME;
+            const t = (this.experience.time.elapsed % this.END_OF_CYCLETIME) / this.END_OF_CYCLETIME;
 
-        let newCycle: Cycles;
-
-        if (elapsed < 300000) newCycle = "day";
-        else if (elapsed < 600000) newCycle = "afternoon";
-        else newCycle = "dusk";
-
-        if (newCycle !== this.lastCycle) {
-            this.currentCycle = this.cycleKeyFrame[newCycle];
-            this.lastCycle = newCycle;
+        if (t < 0.33) {
+            this.cycleA = this.cycleKeyFrame.day
+            this.cycleB = this.cycleKeyFrame.afternoon
+            this.blend = t / 0.33
+        }
+        if (t < 0.66) {
+            this.cycleA = this.cycleKeyFrame.afternoon;
+            this.cycleB = this.cycleKeyFrame.dusk;
+            this.blend = (t - 0.33) / 0.33;
+        }
+        else {
+            this.cycleA = this.cycleKeyFrame.dusk;
+            this.cycleB = this.cycleKeyFrame.day;
+            this.blend = (t - 0.66) / 0.34;
         }
     }
-
 }
