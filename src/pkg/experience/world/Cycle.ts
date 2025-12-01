@@ -24,7 +24,7 @@ export default class Cycle {
 
 
     update() {
-            const t = (this.experience.time.elapsed % this.END_OF_CYCLETIME) / this.END_OF_CYCLETIME;
+        const t = (this.experience.time.elapsed % this.END_OF_CYCLETIME) / this.END_OF_CYCLETIME;
 
         if (t < 0.33) {
             this.cycleA = this.cycleKeyFrame.day

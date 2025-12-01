@@ -2,6 +2,30 @@ import * as THREE from "three";
 import Experience from "../Experience";
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
 import RAPIER from "@dimforge/rapier3d-compat";
+import TextManager from "../utils/TextManager";
+
+type BillBoardObject = {
+    color: string
+}
+
+const BillBoardConfig: Record<string, BillBoardObject> = {
+    "MainPillar": {
+        color: "#21110d"
+    },
+    "Pillar": {
+        color: "#21110d"
+    },
+    "RightPanel": {
+        color: "#240d07"
+    },
+    "LeftPanel": {
+        color: "#240d07"
+    },
+    "LightSupport": {
+        color: "#21110d"
+    }
+}
+
 
 export default class Lab {
     private experience!: Experience;
@@ -17,21 +41,54 @@ export default class Lab {
     private createLab() {
         const loader = new GLTFLoader();
 
-        loader.load("/models/board.glb", (glb) => {
+        loader.load("/models/bill-board.glb", (glb) => {
             const root = glb.scene;
             this.scene.add(root);
 
-            root.getObjectByName("board")?.traverse((node: any) => {
-                if (node.isMesh) {
+
+            Object.entries(BillBoardConfig).forEach(([name, config]) => {
+                root.traverse((node: any) => {
+                    if (!node.isMesh) return;
                     node.castShadow = true;
-                    node.material = new THREE.MeshToonMaterial({ color: "#f73e19" });
+
+                    if (node.name.startsWith(name)) {
+                        node.material = new THREE.MeshToonMaterial({
+                            color: config.color,
+                        });
+                    }
+                });
+            });
+
+            new TextManager({
+                root: root,
+                meshName: "Board",
+                text: "Hello World",
+                width: 1024,
+                height: 720,
+                fontSize: 94,
+                background: "#0a0200",
+                color: "white"
+            });
+
+
+            root.traverse((node: any) => {
+                if (node.isMesh && node.name.includes("BloomLight")) {
+                    const mat = new THREE.MeshStandardMaterial({
+                        emissive: new THREE.Color("#ff0000"),
+                        emissiveIntensity: 1,
+                        toneMapped: false,
+                    });
+                    node.material = mat;
+                    node.material.needsUpdate = true;
                 }
             });
 
-            root.position.set(10, 0, 10)
-            root.rotation.y = -Math.PI / 2
-            root.scale.set(2, 2, 2)
-            this.createPhysicsBody(root)
+            root.position.set(10, 0, 10);
+            root.rotation.y = Math.PI;
+
+            this.createPhysicsBody(root);
+
+            root.scale.set(0.5, 0.5, 0.5);
         });
     }
 
@@ -46,7 +103,7 @@ export default class Lab {
         const rigidBodyDesc = RAPIER.RigidBodyDesc.fixed()
             .setTranslation(root.position.x, root.position.y, root.position.z);
         const body = world.createRigidBody(rigidBodyDesc);
-        const colliderDesc = RAPIER.ColliderDesc.cuboid(size.x / 2, size.y / 2, size.z / 2);
+        const colliderDesc = RAPIER.ColliderDesc.cuboid(size.x / 4, size.y / 4, size.z / 4);
         world.createCollider(colliderDesc, body);
     }
 }

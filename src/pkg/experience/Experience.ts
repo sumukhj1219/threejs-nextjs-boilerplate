@@ -7,6 +7,7 @@ import World from "./world/World"
 import Resources from "./utils/Resources"
 import sources from "./sources"
 import Physics from "./Physics"
+import PostProcessing from "./PostProcessing"
 
 export default class Experience {
     private static instance: Experience
@@ -20,6 +21,7 @@ export default class Experience {
     public world!: World
     public resources!: Resources
     public physics!: Physics
+    public postProcessing!: PostProcessing
 
     constructor(canvas?: HTMLCanvasElement | undefined) {
         if (Experience.instance) {
@@ -37,26 +39,28 @@ export default class Experience {
         this.renderer = new Renderer()
         this.resources = new Resources(sources)
         this.world = new World()
+        this.postProcessing = new PostProcessing()
 
-
+        
         this.sizes.on("resize", () => {
             this.resize()
         })
-
+        
         this.time.on("tick", () => {
             this.update()
         })
     }
-
+    
     resize() {
         this.camera.resize()
         this.renderer.resize()
     }
-
+    
     update() {
         this.physics.update()
         this.camera.update()
         this.world.update()
         this.renderer.update()
+        this.postProcessing.update()
     }
 }
