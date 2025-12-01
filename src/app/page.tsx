@@ -1,20 +1,18 @@
-"use client"
-import Experience from '@/pkg/experience/Experience'
-import React, { useEffect, useRef } from 'react'
+"use client";
+import React, { useEffect, useRef } from "react";
 
 const Page = () => {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null)
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
-    if (!canvasRef.current) return
-    new Experience(canvasRef.current)
-  }, [])
+    if (!canvasRef.current) return;
 
-  return (
-    <div>
-      <canvas ref={canvasRef} className="webgl"></canvas>
-    </div>
-  )
-}
+    import("@/pkg/experience/Experience").then(({ default: Experience }) => {
+      new Experience(canvasRef.current);
+    });
+  }, []);
 
-export default Page
+  return <canvas ref={canvasRef} className="webgl"></canvas>;
+};
+
+export default Page;
