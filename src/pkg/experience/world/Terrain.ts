@@ -18,7 +18,7 @@ export default class Terrain {
     private createTerrain() {
         const geometry = new THREE.PlaneGeometry(175, 175, 1, 1);
         const material = new THREE.MeshStandardMaterial({
-            color: new THREE.Color("#f25b1f"),
+            color: new THREE.Color("orange"),
             side: THREE.DoubleSide,
             metalness: 0,
             roughness: 1,

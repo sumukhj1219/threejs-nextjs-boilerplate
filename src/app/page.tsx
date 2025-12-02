@@ -8,6 +8,7 @@ const Page = () => {
     if (!canvasRef.current) return;
 
     import("@/pkg/experience/Experience").then(({ default: Experience }) => {
+      // @ts-ignore
       new Experience(canvasRef.current);
     });
   }, []);

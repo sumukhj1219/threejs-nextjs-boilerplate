@@ -54,13 +54,13 @@ export default class Experience {
     resize() {
         this.camera.resize()
         this.renderer.resize()
+        this.postProcessing.resize()
     }
     
     update() {
         this.physics.update()
         this.camera.update()
         this.world.update()
-        this.renderer.update()
         this.postProcessing.update()
     }
 }

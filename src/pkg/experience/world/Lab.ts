@@ -3,6 +3,8 @@ import Experience from "../Experience";
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
 import RAPIER from "@dimforge/rapier3d-compat";
 import TextManager from "../utils/TextManager";
+import vertexShader from "../shaders/bloom-vertex.glsl"
+import fragmentShader from "../shaders/bloom-fragment.glsl"
 
 type BillBoardObject = {
     color: string
@@ -73,10 +75,10 @@ export default class Lab {
 
             root.traverse((node: any) => {
                 if (node.isMesh && node.name.includes("BloomLight")) {
-                    const mat = new THREE.MeshStandardMaterial({
-                        emissive: new THREE.Color("#ff0000"),
-                        emissiveIntensity: 1,
-                        toneMapped: false,
+                    const mat = new THREE.ShaderMaterial({
+                        vertexShader: vertexShader,
+                        fragmentShader: fragmentShader,
+                        blending: THREE.AdditiveBlending
                     });
                     node.material = mat;
                     node.material.needsUpdate = true;
