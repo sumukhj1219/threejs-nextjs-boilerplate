@@ -6,7 +6,6 @@ import Resources from "../utils/Resources";
 import Terrain from "./Terrain";
 import Tree from "./Tree";
 import Grass from "./Grass";
-import Bush from "./Bush";
 import Sky from "./Sky";
 import Leaves from "./Leaves";
 import Fog from "./Fog";
@@ -25,7 +24,6 @@ export default class World {
     public terrain!: Terrain
     public tree!: Tree
     public grass!: Grass
-    public bush!: Bush
     public sky!: Sky
     public leaves!: Leaves
     public fog!: Fog
@@ -58,7 +56,6 @@ export default class World {
 
             this.terrain = new Terrain()
             this.grass = new Grass()
-            // this.bush = new Bush()
             this.tree = new Tree()
             this.player = new Player()
             this.leaves = new Leaves()
@@ -72,9 +69,6 @@ export default class World {
     public update(){
         if(this.grass)
         this.grass.update()
-
-        if(this.bush)
-        this.bush.update()
 
         if(this.player)
         this.player.update()

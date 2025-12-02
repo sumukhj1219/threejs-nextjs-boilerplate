@@ -35,19 +35,6 @@ export default class Player {
                 if ((child as THREE.Mesh).isMesh) {
                     child.castShadow = true;
                     child.receiveShadow = true;
-                    // const tex = this.experience.resources.items;
-                    // // @ts-ignore
-                    // const material = child.material;
-
-                    // material.map = tex.metalColor;
-                    // material.roughnessMap = tex.metalRough;
-                    // material.metalnessMap = tex.metalMetalness;
-
-                    // material.normalMap = tex.metalNorgl;
-                    // material.normalMap.flipY = false;
-
-                    // material.displacementMap = tex.metalDisp;
-                    // material.displacementScale = 0.05;
                 }
             });
             root.scale.set(1, 1, 1);

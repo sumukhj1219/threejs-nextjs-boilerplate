@@ -1,4 +1,5 @@
 import * as THREE from "three"
+import Experience from "../Experience";
 
 interface TextManagerOptions {
     root: THREE.Object3D;
@@ -21,6 +22,7 @@ export default class TextManager {
     private fontSize: number;
     private background: string;
     private color: string;
+    private experience!: Experience
 
     constructor(options: TextManagerOptions) {
         this.root = options.root;

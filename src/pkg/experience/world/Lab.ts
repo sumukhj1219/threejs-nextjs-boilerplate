@@ -5,6 +5,7 @@ import RAPIER from "@dimforge/rapier3d-compat";
 import TextManager from "../utils/TextManager";
 import vertexShader from "../shaders/bloom-vertex.glsl"
 import fragmentShader from "../shaders/bloom-fragment.glsl"
+import gsap from "gsap";
 
 type BillBoardObject = {
     color: string
@@ -28,7 +29,6 @@ const BillBoardConfig: Record<string, BillBoardObject> = {
     }
 }
 
-
 export default class Lab {
     private experience!: Experience;
     private scene!: THREE.Scene;
@@ -46,7 +46,7 @@ export default class Lab {
         loader.load("/models/bill-board.glb", (glb) => {
             const root = glb.scene;
             this.scene.add(root);
-
+            root.castShadow = true
 
             Object.entries(BillBoardConfig).forEach(([name, config]) => {
                 root.traverse((node: any) => {
@@ -82,6 +82,14 @@ export default class Lab {
                     });
                     node.material = mat;
                     node.material.needsUpdate = true;
+                }
+
+                if (node.isMesh && node.name.includes("Panel")) {
+                        gsap.fromTo(
+                            node.position as gsap.TweenTarget,
+                            { x: 0, z: 0 },
+                            { x: node.position.x, z: node.position.z, duration: 1.5, ease:"bounce.inOut" }
+                        );
                 }
             });
 
