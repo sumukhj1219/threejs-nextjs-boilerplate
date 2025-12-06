@@ -14,6 +14,7 @@ import Lab from "./Lab";
 import Player from "./Player";
 import Physics from "../Physics";
 import Cycle from "./Cycle";
+import LightPole from "./LightPole";
 
 export default class World {
     private experience!: Experience
@@ -32,6 +33,7 @@ export default class World {
     public player!: Player
     public physics!: Physics
     public cycle!: Cycle
+    public lightPole!: LightPole
 
     constructor() {
         this.experience = new Experience()
@@ -63,6 +65,7 @@ export default class World {
             this.fog = new Fog()
             this.lab = new Lab()
             this.rocks = new Rocks()
+            this.lightPole = new LightPole()
         })
     }
 

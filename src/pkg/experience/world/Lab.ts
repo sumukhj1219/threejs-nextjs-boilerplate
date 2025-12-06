@@ -64,7 +64,7 @@ export default class Lab {
             new TextManager({
                 root: root,
                 meshName: "Board",
-                text: "Hello World",
+                text: "Git Garden",
                 width: 1024,
                 height: 720,
                 fontSize: 94,

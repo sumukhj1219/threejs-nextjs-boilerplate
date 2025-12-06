@@ -7,13 +7,13 @@ export default class PostProcessing {
     private experience: Experience
     private composer!: EffectComposer
     private bloomPass!: UnrealBloomPass
-
+    
     constructor() {
         this.experience = new Experience()
         const scene = this.experience.scene
         const camera = this.experience.camera.instance
         const renderer = this.experience.renderer.instance
-
+        
         this.composer = new EffectComposer(renderer)
 
         const renderPass = new RenderPass(scene, camera)
